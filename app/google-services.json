@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "507467593765",
+    "firebase_url": "https://easify-b7c83-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "easify-b7c83",
+    "storage_bucket": "easify-b7c83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507467593765:android:f6874090828cc6f14da7cc",
+        "android_client_info": {
+          "package_name": "com.example.easify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507467593765-3kfbcdfvt79mjr9ev0lc9f408o72h3qo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtOs7WaI5aPCmJq9AVEtuSk9XrttI_6tI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507467593765-3kfbcdfvt79mjr9ev0lc9f408o72h3qo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507467593765:android:25422bee34d675724da7cc",
+        "android_client_info": {
+          "package_name": "com.example.easifyservicepartnerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507467593765-3kfbcdfvt79mjr9ev0lc9f408o72h3qo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtOs7WaI5aPCmJq9AVEtuSk9XrttI_6tI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507467593765-3kfbcdfvt79mjr9ev0lc9f408o72h3qo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

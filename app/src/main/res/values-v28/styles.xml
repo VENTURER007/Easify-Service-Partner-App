@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="btnGradientRounded">
+        <item name="android:textSize">17px</item>
+        <item name="android:textColor">@color/white_A700</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="android:background">
+            @drawable/rectangle_gradient_s_purple_400_e_red_400_radius_15
+        </item>
+    </style>
+</resources>
