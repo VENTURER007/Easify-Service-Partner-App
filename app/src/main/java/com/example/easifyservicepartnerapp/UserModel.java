@@ -10,6 +10,14 @@ public class UserModel implements Parcelable {
     String fullName;
     String email;
     String phoneNo;
+    String status;
+
+    public UserModel(String fullName, String email, String phoneNo, String status) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.status = status;
+    }
 
     public UserModel(String fullName, String email, String phoneNo) {
         this.fullName = fullName;
@@ -17,10 +25,19 @@ public class UserModel implements Parcelable {
         this.phoneNo = phoneNo;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     protected UserModel(Parcel in) {
         fullName = in.readString();
         email = in.readString();
         phoneNo = in.readString();
+        status = in.readString();
     }
 
     public static final Creator<UserModel> CREATOR = new Creator<UserModel>() {
@@ -72,6 +89,7 @@ public class UserModel implements Parcelable {
         parcel.writeString(fullName);
         parcel.writeString(email);
         parcel.writeString(phoneNo);
+        parcel.writeString(status);
 
     }
 }
