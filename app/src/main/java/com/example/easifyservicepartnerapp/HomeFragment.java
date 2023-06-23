@@ -84,16 +84,19 @@ public class HomeFragment extends Fragment {
 
                 if (isChecked) {
                     // Toggle button is ON
-                    setupMap();
-                    Toast.makeText(getContext(), "You are active now", Toast.LENGTH_SHORT).show();
+                    if (isAdded()) {
+                        setupMap();
+                        Toast.makeText(getContext(), "You are active now", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     // Toggle button is OFF
-//                    stopLocationUpdates();
+                    // stopLocationUpdates();
                     isLocationUpdated = false;
                     Toast.makeText(getContext(), "You are inactive now", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
 
         return view;

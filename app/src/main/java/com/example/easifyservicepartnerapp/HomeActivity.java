@@ -46,8 +46,8 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.home:
                     replaceFragment(new HomeFragment());
                     break;
-                case R.id.book_frag_btn:
-                    replaceFragment(new BookAppointmentFragment());
+                case R.id.req_frag_btn:
+                    replaceFragment(new RequestsFragment());
                     break;
                 case R.id.manage_frag_btn:
                     replaceFragment(new ManageAppointmentsFragment());

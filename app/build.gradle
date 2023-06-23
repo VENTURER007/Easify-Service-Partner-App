@@ -64,6 +64,8 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-appcheck:17.0.1'
 
-    //toggle
-    implementation 'com.nex3z:toggle-button-group:1.2.3'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
 }

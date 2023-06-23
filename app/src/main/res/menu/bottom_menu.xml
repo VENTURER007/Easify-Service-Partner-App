@@ -8,9 +8,9 @@
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/book_frag_btn"
-        android:icon="@drawable/baseline_add_box_24"
-        android:title="Book Services" />
+        android:id="@+id/req_frag_btn"
+        android:icon="@drawable/baseline_request_page_24"
+        android:title="Requests" />
 
 <!--    <item-->
 <!--        android:title=""/>-->
