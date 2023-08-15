@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dialogbg"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-54dp">
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="-68dp">
 
 
             <ImageView
@@ -59,10 +59,10 @@
                 android:id="@+id/odrderIdHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/lighgrey"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="172dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="180dp"
                 android:text="order id : "
+                android:textColor="@color/lighgrey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,10 +70,10 @@
                 android:id="@+id/customer_name_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/lighgrey"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="customer name : "
+                android:textColor="@color/lighgrey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/odrderIdHint" />
 
@@ -81,10 +81,10 @@
                 android:id="@+id/mobileNoHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/lighgrey"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="mobile no : "
+                android:textColor="@color/lighgrey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customer_name_hint" />
 
@@ -92,12 +92,12 @@
                 android:id="@+id/order_Id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
                 android:text="order_id"
                 android:textColor="@color/lighgrey"
                 app:layout_constraintBottom_toBottomOf="@+id/odrderIdHint"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.241"
+                app:layout_constraintHorizontal_bias="0.195"
                 app:layout_constraintStart_toEndOf="@+id/odrderIdHint"
                 app:layout_constraintTop_toTopOf="@+id/odrderIdHint"
                 app:layout_constraintVertical_bias="0.0" />
@@ -106,39 +106,39 @@
                 android:id="@+id/cust_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="20dp"
                 android:text="cust_name"
                 android:textColor="@color/lighgrey"
                 android:textColorHint="@color/lighgrey"
                 app:layout_constraintBottom_toBottomOf="@+id/customer_name_hint"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintHorizontal_bias="0.149"
                 app:layout_constraintStart_toEndOf="@+id/customer_name_hint"
                 app:layout_constraintTop_toTopOf="@+id/customer_name_hint"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/mobile_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="20dp"
                 android:text="mobile_no"
                 android:textColor="@color/lighgrey"
                 app:layout_constraintBottom_toBottomOf="@+id/mobileNoHint"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.241"
+                app:layout_constraintHorizontal_bias="0.195"
                 app:layout_constraintStart_toEndOf="@+id/mobileNoHint"
                 app:layout_constraintTop_toTopOf="@+id/mobileNoHint"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/address_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:textColor="@color/lighgrey"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="Address : "
+                android:textColor="@color/lighgrey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mobileNoHint" />
 
@@ -146,7 +146,7 @@
                 android:id="@+id/addressView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="20dp"
                 android:text="address"
                 android:textColor="@color/lighgrey"
                 app:layout_constraintBottom_toBottomOf="@+id/address_hint"
@@ -158,8 +158,8 @@
                 android:id="@+id/landmarkView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="landmark : "
                 android:textColor="@color/lighgrey"
                 app:layout_constraintStart_toStartOf="parent"
@@ -169,7 +169,7 @@
                 android:id="@+id/landmarkId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="88dp"
+                android:layout_marginStart="20dp"
                 android:text="landmark"
                 android:textColor="@color/lighgrey"
                 app:layout_constraintBottom_toBottomOf="@+id/landmarkView"
@@ -177,14 +177,15 @@
                 app:layout_constraintTop_toTopOf="@+id/landmarkView"
                 app:layout_constraintVertical_bias="0.0" />
 
+
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/req_payment"
+                android:id="@+id/cancel_service"
                 style="@style/btnSolidRoundedSmallTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="144dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="100dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:paddingStart="5dp"
@@ -192,7 +193,7 @@
                 android:paddingEnd="5dp"
                 android:paddingBottom="5dp"
                 android:singleLine="true"
-                android:text="Request Payment"
+                android:text="Cancel Appointment"
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -203,8 +204,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="144dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="100dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:paddingStart="5dp"
@@ -216,9 +217,51 @@
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.521"
-                app:layout_constraintStart_toEndOf="@+id/req_payment"
-                app:layout_constraintTop_toTopOf="@+id/req_payment" />
+                app:layout_constraintTop_toTopOf="@+id/cancel_service" />
+
+            <TextView
+                android:id="@+id/service_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Service Name :"
+                android:textColor="@color/lighgrey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/landmarkView" />
+
+            <TextView
+                android:id="@+id/serviceNameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="serviceNameView"
+                android:textColor="@color/lighgrey"
+                app:layout_constraintBottom_toBottomOf="@+id/service_name"
+                app:layout_constraintStart_toEndOf="@+id/service_name"
+                app:layout_constraintTop_toTopOf="@+id/service_name" />
+
+            <TextView
+                android:id="@+id/service_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Minimum Service Charge :"
+                android:textColor="@color/lighgrey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/service_name" />
+
+            <TextView
+                android:id="@+id/servicChargeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="ServicChargeView"
+                android:textColor="@color/lighgrey"
+                app:layout_constraintBottom_toBottomOf="@+id/service_charge"
+                app:layout_constraintStart_toEndOf="@+id/service_charge"
+                app:layout_constraintTop_toTopOf="@+id/service_charge" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

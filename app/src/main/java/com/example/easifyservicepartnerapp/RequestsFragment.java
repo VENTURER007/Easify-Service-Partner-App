@@ -51,28 +51,35 @@ public class RequestsFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         DatabaseReference ordersRef = database.getReference("orders");
 
-        Query query = ordersRef.orderByChild("service_partner_id").equalTo(currentUser.getUid());
+        Query query = ordersRef.orderByChild("service_partner_id")
+                .equalTo(currentUser.getUid());
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<OrderModel> orders = new ArrayList<>();
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     OrderModel order = orderSnapshot.getValue(OrderModel.class);
-                    orders.add(order);
-                    Log.e("Location", "servicePartnerId: " + order.getService_partner_id() + ", customerId: " + order.getUser_id());
+                    if (order != null && order.getStatus().equals("false")) {
+                        orders.add(order);
+                        Log.e("Location", "servicePartnerId: " + order.getService_partner_id() + ", customerId: " + order.getUser_id());
+                    }
                 }
                 Log.e("success", orders.toString());
 
-
-                adapter = new RecyclerServiceRequestAdapter(getContext(),orders);
+                // Initialize and set adapter here
+                adapter = new RecyclerServiceRequestAdapter(getContext(), orders);
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle any errors that occur during the database query
+                Log.e("success", "order not fetched properly");
             }
         });
+
+
 
 
 

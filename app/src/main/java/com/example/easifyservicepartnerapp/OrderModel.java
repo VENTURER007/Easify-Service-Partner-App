@@ -10,8 +10,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class OrderModel implements Parcelable {
     String order_id;
+    String service_id;
     String user_id;
     String time_stamp;
+
+
+
     LatLngWrapper location;
     String landmark;
     String service_partner_id;
@@ -22,6 +26,7 @@ public class OrderModel implements Parcelable {
 
     protected OrderModel(Parcel in) {
         order_id = in.readString();
+        service_id = in.readString();
         user_id = in.readString();
         time_stamp = in.readString();
         location = in.readParcelable(LatLng.class.getClassLoader());
@@ -41,6 +46,19 @@ public class OrderModel implements Parcelable {
             return new OrderModel[size];
         }
     };
+    public OrderModel() {
+    }
+    public OrderModel(String order_id, String service_id, String user_id, String currentDateAndTime, LatLngWrapper location, String landmark, String service_partner_id, String status) {
+        this.order_id = order_id;
+        this.service_id = service_id;
+        this.user_id = user_id;
+        this.time_stamp = currentDateAndTime;
+        this.location = location;
+        this.landmark = landmark;
+        this.service_partner_id = service_partner_id;
+        this.status = status;
+
+    }
 
     public String getOrder_id() {
         return order_id;
@@ -50,19 +68,15 @@ public class OrderModel implements Parcelable {
         this.order_id = order_id;
     }
 
-    public OrderModel(String serviceKey, String user_id, String currentDateAndTime, LatLngWrapper location, String landmark, String service_partner_id, String status) {
-        this.order_id = serviceKey;
-        this.user_id = user_id;
-        this.time_stamp = currentDateAndTime;
-        this.location = location;
-        this.landmark = landmark;
-        this.service_partner_id = service_partner_id;
-        this.status = status;
-    }
-
-    public OrderModel() {
-        // Default constructor required for Firebase deserialization
-    }
+//    public OrderModel(String serviceKey, String user_id, String currentDateAndTime, LatLng location, String landmark, String service_partner_id, String status) {
+//        this.order_id = serviceKey;
+//        this.user_id = user_id;
+//        this.time_stamp = currentDateAndTime;
+//        this.location = location;
+//        this.landmark = landmark;
+//        this.service_partner_id = service_partner_id;
+//        this.status = status;
+//    }
 
 
 
@@ -84,7 +98,13 @@ public class OrderModel implements Parcelable {
         this.time_stamp = time_stamp;
     }
 
+    public LatLngWrapper getLocation() {
+        return location;
+    }
 
+    public void setLocation(LatLngWrapper location) {
+        this.location = location;
+    }
 
     public String getLandmark() {
         return landmark;
@@ -115,17 +135,18 @@ public class OrderModel implements Parcelable {
         return 0;
     }
 
-    public LatLngWrapper getLocation() {
-        return location;
+    public String getService_id() {
+        return service_id;
     }
 
-    public void setLocation(LatLngWrapper location) {
-        this.location = location;
+    public void setService_id(String service_id) {
+        this.service_id = service_id;
     }
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int flags) {
         parcel.writeString(order_id);
+        parcel.writeString(service_id);
         parcel.writeString(user_id);
         parcel.writeString(time_stamp);
         parcel.writeParcelable(location,flags);

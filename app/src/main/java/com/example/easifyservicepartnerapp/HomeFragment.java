@@ -138,9 +138,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 // Location settings are satisfied, initialize the map
-                startLocationUpdates();
+                if (isAdded()) {
+                    startLocationUpdates();
+                }
             }
         });
+
 
         locationSettingsResponseTask.addOnFailureListener(requireActivity(), new OnFailureListener() {
             @Override

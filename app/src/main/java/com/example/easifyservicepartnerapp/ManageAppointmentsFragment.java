@@ -1,14 +1,20 @@
 package com.example.easifyservicepartnerapp;
 
-import static android.content.ContentValues.TAG;
-
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -16,15 +22,20 @@ import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,29 +45,47 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 
 public class ManageAppointmentsFragment extends Fragment {
 
-    private DatabaseReference databaseReference , userdbRef;
+    private DatabaseReference databaseReference , userdbRef, servicedbRef;
     FirebaseUser currentUser;
     FirebaseAuth mAuth;
 
-    AppCompatButton maps;
+    FirebaseDatabase database;
+
+    AppCompatButton maps,cncl_appomnt,req_pay;
 
     LatLngWrapper location;
 
     String lndmrk;
 
-    TextView order_id,cust_name,mobile_no,address1,landmark;
+    boolean hasActiveOrder = false;
 
+    private Context appContext;
+
+    TextView order_id,cust_name,mobile_no,address1,landmark,service_name,service_charge;
+
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        appContext = context.getApplicationContext();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
+        View nothing_view = inflater.inflate(R.layout.no_orders, container, false);
         View view = inflater.inflate(R.layout.fragment_manage_appointments, container, false);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -66,6 +95,7 @@ public class ManageAppointmentsFragment extends Fragment {
         // Initialize Firebase Realtime Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("orders");
         userdbRef = FirebaseDatabase.getInstance().getReference("users");
+        servicedbRef = FirebaseDatabase.getInstance().getReference("services");
 
         // Create a query to fetch the order details for the current user with the active status
         Query query = databaseReference.orderByChild("service_partner_id")
@@ -83,18 +113,44 @@ public class ManageAppointmentsFragment extends Fragment {
 
                     OrderModel order = orderSnapshot.getValue(OrderModel.class);
                     if (order != null && order.getStatus().equals("active")) {
+                        hasActiveOrder = true;
                         // Process the order with "active" status
-                        Log.e("From Manage Fragment",order.order_id);
+                        Log.e("From Manage Fragment","orders are here"+order.order_id);
                         order_id = view.findViewById(R.id.order_Id);
                         cust_name = view.findViewById(R.id.cust_name);
                         mobile_no = view.findViewById(R.id.mobile_no);
                         address1 = view.findViewById(R.id.addressView);
                         landmark = view.findViewById(R.id.landmarkId);
+                        service_name = view.findViewById(R.id.serviceNameView);
+                        service_charge = view.findViewById(R.id.servicChargeView);
                         location = order.location;
                         lndmrk = order.landmark;
                         order_id.setText(order.order_id);
                         cust_name.setText(currentUser.getDisplayName());
                         mobile_no.setText(currentUser.getPhoneNumber());
+                        servicedbRef.child(order.service_id ).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    String serviceName = dataSnapshot.child("serviceName").getValue(String.class);
+                                    Long serviceCharge = dataSnapshot.child("serviceCharge").getValue(Long.class);
+
+
+                                    if (serviceName != null && serviceCharge != null) {
+                                        // Process the name and phone number
+                                        service_name.setText(serviceName);
+                                        service_charge.setText(serviceCharge.toString());
+                                        Log.d("from manage fragment",serviceName.toString()+serviceCharge.toString());
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // Handle any errors
+                                Log.d("from manage fragment","Service Details Not fetched");
+                            }
+                        });
                         userdbRef.child(order.user_id).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,6 +171,7 @@ public class ManageAppointmentsFragment extends Fragment {
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                                 // Handle any errors
                                 Log.d("from manage fragment","user details Not fetched");
+
                             }
                         });
 
@@ -139,6 +196,17 @@ public class ManageAppointmentsFragment extends Fragment {
 
 
                     }
+                    else{
+                        hasActiveOrder = false;
+                        Log.d("Manage Order","No orders accepted");
+                        view.setVisibility(View.GONE);
+
+                    }
+                }
+                if (!hasActiveOrder) {
+                    // No active orders found, set visibility to GONE
+                    view.setVisibility(View.GONE);
+                    Log.d("Manage Order", "No orders accepted");
                 }
             }
 
@@ -146,8 +214,37 @@ public class ManageAppointmentsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle any errors
                 Log.e("From Manage Fragment","Order not fetched");
+                view.setVisibility(View.GONE);
             }
         });
+        //cancel appoinmtnet
+        cncl_appomnt = view.findViewById(R.id.cancel_service);
+        cncl_appomnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Delete the order details from Firebase Realtime Database
+                DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
+                String userId = currentUser.getUid();
+                Query query = ordersRef.orderByChild("service_partner_id").equalTo(userId);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
+                            orderSnapshot.getRef().removeValue();
+                            Toast.makeText(getContext(), "Appointment cancelled!", Toast.LENGTH_SHORT).show();
+                            view.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e("Delete Order", "Failed to delete order: " + databaseError.getMessage());
+                    }
+                });
+            }
+        });
+
+
 
 
         maps = view.findViewById(R.id.mapView);
@@ -187,9 +284,14 @@ public class ManageAppointmentsFragment extends Fragment {
             }
         });
         return view;
+//        if (hasActiveOrder) {
+//            return view;
+//        }else {
+//            return nothing_view;
+//        }
     }
     private Address getAddressFromLatLng(LatLngWrapper latLng){
-        Geocoder geocoder=new Geocoder(getActivity());
+        Geocoder geocoder=new Geocoder(appContext);
         List<Address> addresses;
         try {
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 5);
@@ -209,4 +311,71 @@ public class ManageAppointmentsFragment extends Fragment {
         }
 
     }
+    private void showBottomDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.req_pay_bottom_layout);
+
+        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+        TextInputLayout upi_id = dialog.findViewById(R.id.upi_id);
+
+        Button submitUpi = dialog.findViewById(R.id.submit_upi);
+
+        // Search clicked
+        submitUpi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String upiId = upi_id.getEditText().getText().toString().trim();
+                if (TextUtils.isEmpty(upiId)) {
+                    Toast.makeText(getContext(), "Enter all fields", Toast.LENGTH_SHORT).show();
+                } else if (!isValidUpiId(upiId)) {
+                    Toast.makeText(getContext(), "Invalid UPI ID format", Toast.LENGTH_SHORT).show();
+                } else {
+                    mAuth = FirebaseAuth.getInstance();
+                    currentUser = mAuth.getCurrentUser();
+                    database = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = database.getReference("orders");
+                    String user_id = currentUser.getUid();
+
+                    // Query the database to check if an order already exists for the current user
+                    ref.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // Handle the data snapshot
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Failed to read value
+                            Toast.makeText(getContext(), "Failed to check existing orders: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private boolean isValidUpiId(String upiId) {
+        // UPI ID format regex pattern
+        String regex = "[\\w.-]+@[\\w]+";
+
+        // Validate the upiId against the regex pattern
+        return upiId.matches(regex);
+    }
+
+
+
 }
