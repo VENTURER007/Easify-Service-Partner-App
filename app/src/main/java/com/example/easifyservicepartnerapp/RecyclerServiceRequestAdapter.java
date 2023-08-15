@@ -16,10 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -204,7 +207,8 @@ public class RecyclerServiceRequestAdapter extends RecyclerView.Adapter<Recycler
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView orderid, location, landmark, service_name, service_charge;
-        AppCompatButton accept;
+        AppCompatButton accept,reject;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -212,8 +216,10 @@ public class RecyclerServiceRequestAdapter extends RecyclerView.Adapter<Recycler
             location = itemView.findViewById(R.id.location_name);
             landmark = itemView.findViewById(R.id.upi_id_input);
             accept = itemView.findViewById(R.id.accept_btn);
+            reject = itemView.findViewById(R.id.reject_btn);
             service_name = itemView.findViewById(R.id.servicenameViewrow);
             service_charge = itemView.findViewById(R.id.serviceChargeViewrow);
+
 
             if (accept != null) {
                 accept.setOnClickListener(new View.OnClickListener() {
@@ -224,6 +230,19 @@ public class RecyclerServiceRequestAdapter extends RecyclerView.Adapter<Recycler
                             OrderModel selectedOrder = arrOrders.get(position);
                             Log.e("selected order", selectedOrder.getOrder_id());
                             updateOrderStatus(selectedOrder, "active");
+                        }
+                    }
+                });
+            }
+            if (reject != null) {
+                reject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            OrderModel selectedOrder = arrOrders.get(position);
+
+                            rejectOrder(selectedOrder, "false");
                         }
                     }
                 });
@@ -249,6 +268,29 @@ public class RecyclerServiceRequestAdapter extends RecyclerView.Adapter<Recycler
                         }
                     });
         }
+        private void rejectOrder(OrderModel order, String status) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference orderRef = database.getReference("orders").child(order.getOrder_id());
+
+            // Delete the order from Firebase Realtime Database
+            orderRef.removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.e("Rejected order", order.getOrder_id());
+                            Toast.makeText(context, "Appointment cancelled!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("Delete Order", "Failed to delete order: " + e.getMessage());
+                        }
+                    });
+        }
+
+
+
 
 
     }
