@@ -278,7 +278,7 @@ public class RecyclerServiceRequestAdapter extends RecyclerView.Adapter<Recycler
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.e("Rejected order", order.getOrder_id());
-                            Toast.makeText(context, "Appointment cancelled!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Appointment rejected!", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
